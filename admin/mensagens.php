@@ -108,20 +108,20 @@ include "../database/conexao.php";
       <!-- head-title -->
       <div class="head-title">
         <div class="left">
-          <h1>Marcações</h1>
+          <h1>Mensagens</h1>
           <ul class="breadcrumb">
             <li>
               <a href="#">Painel</a>
             </li>
             <li><i class="bx bx-chevron-right"></i></li>
             <li>
-              <a class="active" href="#">Marcações</a>
+              <a class="active" href="#">Mensagens</a>
             </li>
           </ul>
         </div>
         <button class="btn-download" data-toggle="modal" data-target="#createModal">
           <i class="bx bxs-file-plus"></i>
-          <span class="text">Nova marcação</span>
+          <span class="text">Nova mensagem</span>
         </button>
       </div>
 
@@ -232,7 +232,7 @@ include "../database/conexao.php";
       <div class="table-data">
         <div class="order">
           <div class="head">
-            <h3>Todas as Marcações</h3>
+            <h3>Todas as Mensagens</h3>
             <i class="bx bx-search"></i>
             <i class="bx bx-filter"></i>
           </div>
@@ -243,15 +243,14 @@ include "../database/conexao.php";
                 <th>Utilizador</th>
                 <th>E-mail</th>
                 <th>Telemóvel</th>
-                <th>Serviço</th>
-                <th>Status</th>
+                <th>Mensagem</th>
                 <th>Ordem de Data</th>
                 <th>Ação</th>
               </tr>
             </thead>
             <tbody>
               <?php
-              $sql = "SELECT * FROM scheduling";
+              $sql = "SELECT * FROM messages_contact";
               $result = $conn->query($sql);
 
               if ($result->num_rows > 0) {
@@ -260,10 +259,9 @@ include "../database/conexao.php";
                   echo "<td>" . $row["id"] . "</td>";
                   echo "<td>" . $row["name_user"] . "</td>";
                   echo "<td>" . $row["email_user"] . "</td>";
-                  echo "<td>" . $row["phone_user"] . "</td>";
-                  echo "<td>" . $row["servico"] . "</td>";
-                  echo "<td> <span class='status completed'>" . $row["estado"] . "</span></td>";
-                  echo "<td>" . $row["data_marcacao"] . "</td>";
+                  echo "<td>" . $row["numero"] . "</td>";
+                  echo "<td>" . $row["messages"] . "</td>";
+                  echo "<td>" . $row["date_create"] . "</td>";
                   echo "<td>";
                   echo "<button class='status edite'>Editar</button>";
                   echo "<button class='status delete' onclick=\"excluirRegistro(" . $row["id"] . ")\">Apagar</button>";
@@ -292,8 +290,8 @@ include "../database/conexao.php";
 
   <script>
   function excluirRegistro(id) {
-    if (confirm("Tem certeza de que deseja excluir este registro?")) {
-      window.location.href = "../database/excluir_registro.php?id=" + id;
+    if (confirm("Tem certeza de que deseja excluir esta mensagem?")) {
+      window.location.href = "../database/excluir_mensagem.php?id=" + id;
     }
   }
   </script>

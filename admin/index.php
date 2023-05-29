@@ -63,13 +63,13 @@ $total_mensagens = $row['total_mensagens'];
       </li>
       <li>
         <a href="mensagens.php">
-          <i class="bx bx-windows"></i>
+          <i class='bx bx-chat'></i>
           <span class="text">Mensagens</span>
         </a>
       </li>
       <li>
         <a href="marcacoes.php">
-          <i class="bx bx-question-mark"></i>
+          <i class='bx bx-bookmarks'></i>
           <span class="text">Marcações</span>
         </a>
       </li>
@@ -81,11 +81,11 @@ $total_mensagens = $row['total_mensagens'];
             <span class="text">Configurações</span>
           </a>
         </li> -->
-      <li>
+      <!-- <li>
         <a href="#" class="logout">
           <i class="bx bxs-log-out-circle"></i>
           <span class="text">Sair</span>
-        </a>
+        </a> -->
       </li>
     </ul>
   </section>
