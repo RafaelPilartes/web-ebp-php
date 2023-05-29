@@ -1,0 +1,40 @@
+.whatsappButtom {
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 100px;
+  background-color: rgb(5, 212, 5);
+
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 999;
+
+  animation: btn-whatsapp 1s ease infinite;
+
+  transition: 0.4s;
+}
+.whatsappButtom span {
+  font-size: 79px;
+  color: #fff;
+}
+.whatsappButtom:hover {
+  transform: scale(1.08);
+  animation: btn-whatsapp none;
+}
+
+@keyframes btn-whatsapp {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
