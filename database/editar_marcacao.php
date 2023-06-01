@@ -2,8 +2,8 @@
 include "conexao.php";
 
 // Verifica se foi enviado um ID válido para edição
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+if (isset($_POST['id'])) {
+    $id = $_POST['id'];
 
     // Consulta o registro pelo ID
     $sql = "SELECT * FROM scheduling WHERE id = $id";
@@ -13,22 +13,45 @@ if (isset($_GET['id'])) {
         $row = $result->fetch_assoc();
 
         // Valores atuais do registro
-        $nomeAtual = $row['nome'];
-        $emailAtual = $row['email'];
-        $mensagemAtual = $row['mensagem'];
+        $nomeAtual = $row['name_user'];
+        $emailAtual = $row['email_user'];
+        $numeroAtual = $row['phone_user'];
+        $servicoAtual = $row['servico'];
+        $estadoAtual = $row['estado'];
+        $dataMarcadaAtual = $row['data_marcacao'];
 
         // Processa o formulário de edição
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Novos valores enviados pelo formulário
             $novoNome = $_POST['nome'];
             $novoEmail = $_POST['email'];
-            $novaMensagem = $_POST['mensagem'];
+            $numeroNovo = $_POST['numero'];
+            $dataMarcadaNovo = $_POST['data_marcacao'];
+            $servicoNovo = $_POST['servico'];
+            $estadoNovo = $_POST['estado'];
+
+            if (empty($dataMarcadaNovo)) {
+                $dataMarcadaNovo = $dataMarcadaAtual;
+            }
+            if (empty($estadoNovo)) {
+                $estadoNovo = $estadoAtual;
+            }
+            if (empty($servicoNovo)) {
+                $servicoNovo = $servicoAtual;
+            }
 
             // Executa a consulta de atualização
-            $sqlAtualizar = "UPDATE scheduling SET nome = '$novoNome', email = '$novoEmail', mensagem = '$novaMensagem' WHERE id = $id";
+            $sqlAtualizar = "UPDATE scheduling SET 
+            name_user = '$novoNome',
+            email_user = '$novoEmail',
+            phone_user = '$numeroNovo',
+            data_marcacao = '$dataMarcadaNovo',
+            servico = '$servicoNovo',
+            estado = '$estadoNovo'
+             WHERE id = $id";
 
             if ($conn->query($sqlAtualizar) === TRUE) {
-                echo "<script>alert('Registro atualizado com sucesso!'); window.location.href = 'contato.php';</script>";
+                echo "<script>alert('Registro atualizado com sucesso!'); window.history.back();</script>";
                 exit();
             } else {
                 echo "Erro ao atualizar o registro: " . $conn->error;

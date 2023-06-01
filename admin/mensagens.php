@@ -244,7 +244,7 @@ include "../database/conexao.php";
                 <th>E-mail</th>
                 <th>Telemóvel</th>
                 <th>Mensagem</th>
-                <th>Ordem de Data</th>
+                <!-- <th>Ordem de Data</th> -->
                 <th>Ação</th>
               </tr>
             </thead>
@@ -261,9 +261,8 @@ include "../database/conexao.php";
                   echo "<td>" . $row["email_user"] . "</td>";
                   echo "<td>" . $row["numero"] . "</td>";
                   echo "<td>" . $row["messages"] . "</td>";
-                  echo "<td>" . $row["date_create"] . "</td>";
+                  // echo "<td>" . $row["date_create"] . "</td>";
                   echo "<td>";
-                  echo "<button class='status edite'>Editar</button>";
                   echo "<button class='status delete' onclick=\"excluirRegistro(" . $row["id"] . ")\">Apagar</button>";
                   echo "</td>";
                   echo "</tr>";

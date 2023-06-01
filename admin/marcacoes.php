@@ -1,5 +1,9 @@
 <?php
 include "../database/conexao.php";
+
+$sql = "SELECT * FROM scheduling";
+$resultEdite = $conn->query($sql);
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -161,7 +165,7 @@ include "../database/conexao.php";
               <input name="data_marcacao" type="date" placeholder="Data da marcação" required class="form-control" />
             </div>
             <div>
-              <label for="name_faculty">
+              <label for="">
                 Serviço <span class="text-danger">*</span>
               </label>
               <select name="servico" class="form-control">
@@ -187,46 +191,86 @@ include "../database/conexao.php";
         </div>
       </div>
 
-      <div id="editeModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <div class="container-modal">
-            <h2>Editar dados do curso</h2>
-          </div>
-
-          <form id="editForm" class="modalForm">
-            <input id="id_edit" name="idCourse" hidden>
-            <span id="msgAlertaErroEditCard"></span>
-
-            <div>
-              <label for="name_course">
-                Nome do curso <span class="text-danger">*</span>
-              </label>
-              <input id="name_course_edit" name="name_course" class="form-control" type="text"
-                placeholder="Ex.: Universidade Independente de Angola">
+      <?php
+      if ($resultEdite->num_rows > 0) {
+        while ($rowEdite = $resultEdite->fetch_assoc()) {
+          echo "
+            <div id=\"editeModal" . $rowEdite["id"] . "\" class='modal'>
+              <div class='modal-content'>
+                <span class='close'>&times;</span>
+                <div class='container-modal'>
+                  <h2>Editat marcação</h2>
+                </div>
+      
+                <form action='../database/editar_marcacao.php' method='post' class='modalForm'>
+                  <span id='msgAlertaErroCad'></span>
+                  <input name='id' type='text' value=\"" . $rowEdite["id"] . "\" hidden/>
+      
+                  <div>
+                    <label for='name_course'>
+                      Nome <span class='text-danger'>*</span>
+                    </label>
+                    <input name='nome' type='text' placeholder='Nome' required class='form-control' value=\"" . $rowEdite["name_user"] . "\"  />
+                  </div>
+                  <div>
+                    <label for='name_course'>
+                      Email <span class='text-danger'>*</span>
+                    </label>
+                    <input name='email' type='email' placeholder='Email' required class='form-control' value=\"" . $rowEdite["email_user"] . "\" />
+                  </div>
+                  <div>
+                    <label for='ref_course'>
+                      Número <span class='text-danger'>*</span>
+                    </label>
+                    <input name='numero' type='number' placeholder='Número' required class='form-control' value=\"" . $rowEdite["phone_user"] . "\" />
+                  </div>
+                  <div>
+                    <label for='ref_course'>
+                      Data da marcação <span class='text-danger'>*</span>
+                    </label>
+                    <input name='data_marcacao' type='date' placeholder='Data da marcação' class='form-control' />
+                  </div>
+                  <div>
+                    <label for=''>
+                      Serviço <span class='text-danger'>*</span>
+                    </label>
+                    <select name='servico' class='form-control' value=\"" . $rowEdite["servico"] . "\">
+                      <option value=''>------ Selecione o serviço ------</option>
+                      <option value='Divisão de Contabilidade e Fiscalidade'>Divisão de
+                        Contabilidade e Fiscalidade</option>
+                      <option value='Divisão de Consultoria Financeira e de Gestão'>Divisão de
+                        Consultoria Financeira e de Gestão
+                      </option>
+                      <option value='Divisão de Corporate Finance dirigida às PME'>Divisão de
+                        Corporate Finance dirigida às PME
+                      </option>
+                      <option value='Divisão de Auditoria Financeira e Revisão de Contas'>
+                        Divisão
+                        de Auditoria Financeira e
+                        Revisão de Contas</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for=''>
+                      Serviço <span class='text-danger'>*</span>
+                    </label>
+                    <select name='estado' class='form-control' value=\"" . $rowEdite["estado"] . "\">
+                      <option value=''>------ Selecione o estado ------</option>
+                      <option value='Concluido'>Concluido</option>
+                      <option value='Pendente'>Pendente</option>
+                    </select>
+                  </div>
+      
+                  <button class='base-btn' type='submit'>
+                    Atualizar
+                  </button>
+                </form>
+              </div>
             </div>
-            <div>
-              <label for="ref_course">
-                Referencia da curso <span class="text-danger">*</span>
-              </label>
-              <input id="ref_course_edit" name="ref_course" class="form-control" type="text"
-                placeholder="Ex.: uni_ind_ang">
-            </div>
-            <div>
-              <label for="name_faculty">
-                Selecione a universidade <span class="text-danger">*</span>
-              </label>
-              <select name="name_faculty" id="faculty_select_edit" class="form-control" require>
-                <option value="">Escolha uma opção</option>
-              </select>
-            </div>
-
-            <button class="base-btn" type="submit">
-              Actualizar dados do curso
-            </button>
-          </form>
-        </div>
-      </div>
+          ";
+        }
+      }
+      ?>
 
       <!-- TABLE -->
       <div class="table-data">
@@ -251,8 +295,7 @@ include "../database/conexao.php";
             </thead>
             <tbody>
               <?php
-              $sql = "SELECT * FROM scheduling";
-              $result = $conn->query($sql);
+
 
               if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
@@ -265,7 +308,7 @@ include "../database/conexao.php";
                   echo "<td> <span class='status completed'>" . $row["estado"] . "</span></td>";
                   echo "<td>" . $row["data_marcacao"] . "</td>";
                   echo "<td>";
-                  echo "<button class='status edite'>Editar</button>";
+                  echo "<button class='status edite' data-toggle='modal' data-target=\"#editeModal" . $row["id"] . "\">Editar</button>";
                   echo "<button class='status delete' onclick=\"excluirRegistro(" . $row["id"] . ")\">Apagar</button>";
                   echo "</td>";
                   echo "</tr>";
@@ -291,11 +334,11 @@ include "../database/conexao.php";
   <script src="src/vendor/bootstrap/bootstrap.min.js"></script>
 
   <script>
-  function excluirRegistro(id) {
-    if (confirm("Tem certeza de que deseja excluir este registro?")) {
-      window.location.href = "../database/excluir_registro.php?id=" + id;
+    function excluirRegistro(id) {
+      if (confirm("Tem certeza de que deseja excluir este registro?")) {
+        window.location.href = "../database/excluir_registro.php?id=" + id;
+      }
     }
-  }
   </script>
 </body>
 
